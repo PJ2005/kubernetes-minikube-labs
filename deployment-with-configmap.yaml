@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-config
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: webapp-config
+  template:
+    metadata:
+      labels:
+        app: webapp-config
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.27
+        ports:
+        - containerPort: 80
+        env:
+        - name: APP_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: environment
